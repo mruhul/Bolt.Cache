@@ -1,2 +1,2 @@
 # Bolt.Cache
-<a href="#">Click here</a> to read details
+<a href="http://t.co/JrHv8lM9yt">Click here</a> to read details
