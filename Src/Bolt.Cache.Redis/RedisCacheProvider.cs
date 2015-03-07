@@ -5,15 +5,15 @@ using StackExchange.Redis;
 
 namespace Bolt.Cache.Redis
 {
-    public class CacheProvider : ICacheProvider
+    public class RedisCacheProvider : ICacheProvider
     {
         private readonly string _name;
-        private readonly int _priority;
+        private readonly int _order;
         private readonly IConnectionFactory _connectionFactory;
         private readonly ISerializer _serializer;
         private readonly IConnectionSettings _settings; 
 
-        public CacheProvider(string name, int priority,
+        public RedisCacheProvider(string name, int order,
             IConnectionSettings settings,
             IConnectionFactory connectionFactory,
             ISerializer serializer)
@@ -22,7 +22,7 @@ namespace Bolt.Cache.Redis
             _serializer = serializer;
             _settings = settings;
             _name = name;
-            _priority = priority;
+            _order = order;
         }
 
         private IDatabase Database
@@ -54,7 +54,7 @@ namespace Bolt.Cache.Redis
             Database.KeyDelete(key);
         }
 
-        public int Priority { get { return _priority; } }
+        public int Order { get { return _order; } }
         public string Name { get { return _name; } }
     }
 }

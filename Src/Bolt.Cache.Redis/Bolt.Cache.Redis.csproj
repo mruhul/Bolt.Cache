@@ -30,9 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bolt.Cache, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Bolt.Cache, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Bolt.Cache.1.1.0.0\lib\net45\Bolt.Cache.dll</HintPath>
+      <HintPath>..\packages\Bolt.Cache.1.2.0.0\lib\net45\Bolt.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="Bolt.Logger">
+      <HintPath>..\packages\Bolt.Logger.1.0.0.1\lib\net45\Bolt.Logger.dll</HintPath>
     </Reference>
     <Reference Include="Bolt.Serializer">
       <HintPath>..\packages\Bolt.Serializer.1.0.0.0\lib\net45\Bolt.Serializer.dll</HintPath>
@@ -50,7 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CacheProvider.cs" />
+    <Compile Include="Builders\RedisCacheProviderBuilder.cs" />
+    <Compile Include="RedisCacheProvider.cs" />
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="Configs\ConnectionSettingsSection.cs" />
     <Compile Include="IConnectionFactory.cs" />
