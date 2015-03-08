@@ -40,13 +40,19 @@ namespace Bolt.Cache.Redis
             var result = Database.StringGet(key, CommandFlags.PreferSlave);
 
             return result.HasValue 
-                    ? new CacheResult<T>(true, _serializer.Deserialize<T>(result)) 
+                ? new CacheResult<T>(true, result.IsNullOrEmpty ? default(T) : _serializer.Deserialize<T>(result)) 
                     : CacheResult<T>.Empty ;
         }
 
         public void Set<T>(string key, T value, int durationInSeconds)
         {
-            Database.StringSet(key, _serializer.Serialize(value), TimeSpan.FromSeconds(durationInSeconds));
+            if(value == null) return;
+
+            Database.StringSet(key: key, 
+                value: _serializer.Serialize(value), 
+                expiry: TimeSpan.FromSeconds(durationInSeconds), 
+                when: When.Always, 
+                flags: CommandFlags.FireAndForget | CommandFlags.PreferMaster);
         }
 
         public void Remove(string key)

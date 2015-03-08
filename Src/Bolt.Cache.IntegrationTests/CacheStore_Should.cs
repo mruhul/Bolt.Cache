@@ -29,7 +29,7 @@ namespace Bolt.Cache.IntegrationTests
 
 
             var result2 = cacheStore.Profile("Short")
-                                .Fetch<string>(() => string.Empty)
+                                .Fetch<string>(() => null)
                                 .Get(key);
 
             Assert.DoesNotThrow(() => cacheStore.Remove(key));
@@ -48,7 +48,7 @@ namespace Bolt.Cache.IntegrationTests
                 RedisCacheProviderBuilder.New().Serializer(x.Kernel.Get<ISerializer>()).Build())
                 .InSingletonScope();
 
-            Bind<ICacheStore>().ToMethod(x => CacheStoreBuilder.New().Build());
+            Bind<ICacheStore>().ToMethod(x => CacheStoreBuilder.New().CacheProviders(x.Kernel.GetAll<ICacheProvider>()).Build()).InSingletonScope();
         }
     }
 
@@ -58,7 +58,7 @@ namespace Bolt.Cache.IntegrationTests
         {
             Bind<ILogger>().ToMethod(x => Bolt.Logger.NLog.LoggerFactory.Create(x.Request.Target.GetType()));
             Bind<ICacheSettingsProvider>()
-                .ToMethod(x => new ConfigBasedCacheSettingsProvider("CacheSettings"))
+                .ToMethod(x => new ConfigBasedCacheSettingsProvider("Bolt.Cache.Settings"))
                 .InSingletonScope();
             Bind<ICacheProvider>().To<InMemoryCacheProvider>()
                 .WithConstructorArgument("name", "InMemory")
@@ -66,7 +66,7 @@ namespace Bolt.Cache.IntegrationTests
 
             Bind<Bolt.Cache.Redis.IConnectionSettings>()
                 .ToMethod(x => Bolt.Cache.Redis.Configs.ConnectionSettingsSection
-                                .Instance("RedisSettings"))
+                                .Instance("Bolt.Cache.Redis.Settings"))
                 .InSingletonScope();
             Bind<Bolt.Serializer.ISerializer>().To<Bolt.Serializer.Json.JsonSerializer>().InSingletonScope();
             Bind<Bolt.Cache.Redis.IConnectionFactory>().To<Bolt.Cache.Redis.ConnectionFactory>().InSingletonScope();
