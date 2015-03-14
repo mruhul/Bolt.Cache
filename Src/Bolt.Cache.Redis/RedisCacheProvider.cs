@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Bolt.Cache.Dto;
 using Bolt.Serializer;
 using StackExchange.Redis;
@@ -35,6 +36,11 @@ namespace Bolt.Cache.Redis
             return Database.KeyExists(key);
         }
 
+        public Task<bool> ExistsAsync(string key)
+        {
+            return Database.KeyExistsAsync(key);
+        }
+
         public CacheResult<T> Get<T>(string key)
         {
             var result = Database.StringGet(key, CommandFlags.PreferSlave);
@@ -42,6 +48,15 @@ namespace Bolt.Cache.Redis
             return result.HasValue 
                 ? new CacheResult<T>(true, result.IsNullOrEmpty ? default(T) : _serializer.Deserialize<T>(result)) 
                     : CacheResult<T>.Empty ;
+        }
+
+        public async Task<CacheResult<T>> GetAsync<T>(string key)
+        {
+            var result = await Database.StringGetAsync(key, CommandFlags.PreferSlave);
+
+            return result.HasValue
+                ? new CacheResult<T>(true, result.IsNullOrEmpty ? default(T) : _serializer.Deserialize<T>(result))
+                    : CacheResult<T>.Empty;
         }
 
         public void Set<T>(string key, T value, int durationInSeconds)
@@ -55,9 +70,25 @@ namespace Bolt.Cache.Redis
                 flags: CommandFlags.FireAndForget | CommandFlags.PreferMaster);
         }
 
+        public Task SetAsync<T>(string key, T value, int durationInSeconds)
+        {
+            if (value == null) return Task.FromResult(0);
+
+            return Database.StringSetAsync(key: key,
+                value: _serializer.Serialize(value),
+                expiry: TimeSpan.FromSeconds(durationInSeconds),
+                when: When.Always,
+                flags: CommandFlags.FireAndForget | CommandFlags.PreferMaster);
+        }
+
         public void Remove(string key)
         {
-            Database.KeyDelete(key);
+            Database.KeyDelete(key, CommandFlags.FireAndForget | CommandFlags.PreferMaster);
+        }
+
+        public Task RemoveAsync(string key)
+        {
+            return Database.KeyDeleteAsync(key, CommandFlags.FireAndForget | CommandFlags.PreferMaster);
         }
 
         public int Order { get { return _order; } }

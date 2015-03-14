@@ -1,4 +1,5 @@
-﻿using Bolt.Cache.Builders;
+﻿using System.Threading.Tasks;
+using Bolt.Cache.Builders;
 using Bolt.Cache.Extensions;
 using Bolt.Cache.Impl;
 using Bolt.Cache.Redis.Builders;
@@ -22,11 +23,19 @@ namespace Bolt.Cache.IntegrationTests
             var cacheStore = kernel.Get<ICacheStore>();
 
             const string key = "Helloworld";
+            const string keyAsync = "HelloworldAsync";
 
             var  result = cacheStore.Profile("Short")
                                 .Fetch<string>(() => string.Empty)
                                 .Get(key);
 
+            var resultAsyncTask = cacheStore.Profile("Short")
+                                .FetchAsync<string>(() => Task.FromResult(string.Empty))
+                                .GetAsync(keyAsync);
+
+            Task.WaitAll(resultAsyncTask);
+
+            var resultAsync = resultAsyncTask.Result;
 
             var result2 = cacheStore.Profile("Short")
                                 .Fetch<string>(() => null)

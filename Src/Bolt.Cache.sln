@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.Cache.IntegrationTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.Cache.Redis.IntegrationTests", "Bolt.Cache.Redis.IntegrationTests\Bolt.Cache.Redis.IntegrationTests.csproj", "{67554DDB-A84E-4D7A-93A0-A3ACDBAC3581}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bolt.Cache.UnitTests", "Bolt.Cache.UnitTests\Bolt.Cache.UnitTests.csproj", "{4B26B805-2D0F-4196-8B60-4936F0C398E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{67554DDB-A84E-4D7A-93A0-A3ACDBAC3581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67554DDB-A84E-4D7A-93A0-A3ACDBAC3581}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67554DDB-A84E-4D7A-93A0-A3ACDBAC3581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B26B805-2D0F-4196-8B60-4936F0C398E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B26B805-2D0F-4196-8B60-4936F0C398E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B26B805-2D0F-4196-8B60-4936F0C398E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B26B805-2D0F-4196-8B60-4936F0C398E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +48,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A9E64B23-C83A-428F-9CF3-E7E56AAE0709} = {5E0B5806-B426-4831-98A1-41415581CAD7}
 		{67554DDB-A84E-4D7A-93A0-A3ACDBAC3581} = {5E0B5806-B426-4831-98A1-41415581CAD7}
+		{4B26B805-2D0F-4196-8B60-4936F0C398E2} = {5E0B5806-B426-4831-98A1-41415581CAD7}
 	EndGlobalSection
 EndGlobal
